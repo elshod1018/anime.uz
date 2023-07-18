@@ -4,9 +4,12 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.cglib.core.Local;
 import uz.anime.enums.SMSCodeType;
 
 import java.io.Serializable;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Entity
@@ -31,12 +34,11 @@ public class UserSMS implements Serializable {
     @Enumerated(EnumType.STRING)
     private SMSCodeType type = SMSCodeType.ACTIVATION;
 
+    @Builder.Default
     @CreationTimestamp
-    @Column(columnDefinition = "timestamp default current_timestamp", updatable = false)
-    private LocalDateTime fromTime;
+    private LocalDateTime fromTime = LocalDateTime.now();
 
     @Builder.Default
-    @Column(columnDefinition = "timestamp default now() + INTERVAL '2 Minutes'")
     private LocalDateTime toTime = LocalDateTime.now().plusMinutes(2);
 
     private boolean expired;
