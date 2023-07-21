@@ -1,0 +1,28 @@
+2023-07-20 11:19:14,508 INFO      org.hibernate.validator.internal.util.Version [background-preinit] HV000001: Hibernate Validator 8.0.0.Final
+2023-07-20 11:19:14,534 INFO         org.springframework.boot.StartupInfoLogger [main] Starting AnimeApplication using Java 17.0.7 with PID 11425 (/home/elshod/Documents/javacourse/self_study/anime/target/classes started by elshod in /home/elshod/Documents/javacourse/self_study/anime)
+2023-07-20 11:19:14,535 INFO         org.springframework.boot.SpringApplication [main] The following 1 profile is active: "dev"
+2023-07-20 11:19:15,223 INFO .repository.config.RepositoryConfigurationDelegate [main] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-07-20 11:19:15,270 INFO .repository.config.RepositoryConfigurationDelegate [main] Finished Spring Data repository scanning in 40 ms. Found 2 JPA repository interfaces.
+2023-07-20 11:19:15,791 INFO framework.boot.web.embedded.tomcat.TomcatWebServer [main] Tomcat initialized with port(s): 8080 (http)
+2023-07-20 11:19:15,797 INFO               org.apache.juli.logging.DirectJDKLog [main] Initializing ProtocolHandler ["http-nio-8080"]
+2023-07-20 11:19:15,798 INFO               org.apache.juli.logging.DirectJDKLog [main] Starting service [Tomcat]
+2023-07-20 11:19:15,798 INFO               org.apache.juli.logging.DirectJDKLog [main] Starting Servlet engine: [Apache Tomcat/10.1.10]
+2023-07-20 11:19:15,842 INFO               org.apache.juli.logging.DirectJDKLog [main] Initializing Spring embedded WebApplicationContext
+2023-07-20 11:19:15,843 INFO servlet.context.ServletWebServerApplicationContext [main] Root WebApplicationContext: initialization completed in 1276 ms
+2023-07-20 11:19:15,986 INFO          org.hibernate.jpa.internal.util.LogHelper [main] HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-07-20 11:19:16,031 INFO                              org.hibernate.Version [main] HHH000412: Hibernate ORM core version 6.2.5.Final
+2023-07-20 11:19:16,035 INFO                      org.hibernate.cfg.Environment [main] HHH000406: Using bytecode reflection optimizer
+2023-07-20 11:19:16,126 INFO ernate.bytecode.internal.BytecodeProviderInitiator [main] HHH000021: Bytecode provider name : bytebuddy
+2023-07-20 11:19:16,220 INFO .orm.jpa.persistenceunit.SpringPersistenceUnitInfo [main] No LoadTimeWeaver setup: ignoring JPA class transformer
+2023-07-20 11:19:16,232 INFO                 com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Starting...
+2023-07-20 11:19:16,393 INFO                  com.zaxxer.hikari.pool.HikariPool [main] HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@62b42406
+2023-07-20 11:19:16,395 INFO                 com.zaxxer.hikari.HikariDataSource [main] HikariPool-1 - Start completed.
+2023-07-20 11:19:16,616 INFO ernate.bytecode.internal.BytecodeProviderInitiator [main] HHH000021: Bytecode provider name : bytebuddy
+2023-07-20 11:19:17,504 INFO saction.jta.platform.internal.JtaPlatformInitiator [main] HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-07-20 11:19:17,701 INFO framework.orm.jpa.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-07-20 11:19:18,087 INFO ork.data.jpa.repository.query.QueryEnhancerFactory [main] Hibernate is in classpath; If applicable, HQL parser will be used.
+2023-07-20 11:19:18,993 WARN e.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration [main] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-07-20 11:19:19,396 INFO gframework.security.web.DefaultSecurityFilterChain [main] Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@f758e05, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@46e77fb7, org.springframework.security.web.context.SecurityContextHolderFilter@45144fdf, org.springframework.security.web.header.HeaderWriterFilter@564b221e, org.springframework.security.web.authentication.logout.LogoutFilter@69f01f4b, uz.anime.config.security.JwtAuthenticationFilter@43c73b5c, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@23c07745, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@62a07c01, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@6b1381fc, org.springframework.security.web.session.SessionManagementFilter@650ee893, org.springframework.security.web.access.ExceptionTranslationFilter@716a6343, org.springframework.security.web.access.intercept.AuthorizationFilter@69c413f7]
+2023-07-20 11:19:19,861 INFO               org.apache.juli.logging.DirectJDKLog [main] Starting ProtocolHandler ["http-nio-8080"]
+2023-07-20 11:19:19,878 INFO framework.boot.web.embedded.tomcat.TomcatWebServer [main] Tomcat started on port(s): 8080 (http) with context path ''
+2023-07-20 11:19:19,894 INFO         org.springframework.boot.StartupInfoLogger [main] Started AnimeApplication in 5.934 seconds (process running for 6.42)
