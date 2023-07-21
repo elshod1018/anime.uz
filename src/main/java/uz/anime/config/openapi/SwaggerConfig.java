@@ -53,8 +53,8 @@ public class SwaggerConfig {
                         .description("Spring Wikipedia Documentation")
                         .url("https://springshop.wiki.github.org/docs"))
                 .servers(List.of(
-                                new Server().url("http://localhost:8080").description("Development Server"),
-                                new Server().url("").description("Production Server")
+                                new Server().url("https://anime-uz.onrender.com").description("Production Server"),
+                                new Server().url("http://localhost:8080").description("Development Server")
                         )
                 )
                 .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))
@@ -66,6 +66,7 @@ public class SwaggerConfig {
                                 .bearerFormat("JWT"))
                 ));
     }
+
     @Bean
     public GroupedOpenApi allOpenApi() {
         return GroupedOpenApi.builder()

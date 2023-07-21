@@ -20,7 +20,8 @@ public class TelegramAppender extends AppenderBase<LoggingEvent> {
             @Override
             public FilterReply decide(LoggingEvent loggingEvent) {
                 return loggingEvent.getLevel()
-                        .isGreaterOrEqual(Level.ERROR) ? FilterReply.ACCEPT : FilterReply.DENY;
+                        .isGreaterOrEqual(Level.INFO) ? FilterReply.ACCEPT : FilterReply.DENY;
+
             }
         });
     }

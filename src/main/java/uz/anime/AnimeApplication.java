@@ -13,11 +13,9 @@ import java.util.Random;
 @EnableJpaAuditing
 @SpringBootApplication
 public class AnimeApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(AnimeApplication.class, args);
     }
-
     @Bean
     public AuditorAware<Integer> auditorAware(SessionUser sessionUser) {
         return () -> Optional.of(sessionUser.id());
