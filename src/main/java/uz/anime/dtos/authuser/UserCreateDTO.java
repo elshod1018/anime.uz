@@ -1,10 +1,12 @@
 package uz.anime.dtos.authuser;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import uz.anime.customAnnotations.annotations.UniqueUsername;
 
 import java.io.Serializable;
 
@@ -14,6 +16,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public final class UserCreateDTO implements Serializable {
+    @UniqueUsername
     @NotBlank(message = "Username can not be blank")
     private String username;
 

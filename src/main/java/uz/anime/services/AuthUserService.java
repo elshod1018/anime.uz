@@ -2,7 +2,6 @@ package uz.anime.services;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,10 +11,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import uz.anime.config.security.JwtService;
 import uz.anime.domains.AuthUser;
+import uz.anime.domains.UserSMS;
 import uz.anime.dtos.authuser.*;
 import uz.anime.enums.SMSCodeType;
+import uz.anime.enums.Status;
 import uz.anime.enums.TokenType;
 import uz.anime.repositories.AuthUserRepository;
+
+import java.util.Objects;
 
 import static uz.anime.mapper.UserMapper.USER_MAPPER;
 
@@ -69,8 +72,28 @@ public class AuthUserService {
         return jwtService.generateAccessToken(username, tokenResponse);
     }
 
-    public boolean activate(UserActivationDTO dto) {
+    public void activate(UserActivationDTO dto) {
+        AuthUser authUser = findByEmail(dto.email());
+        UserSMS userSMS = userSMSService.findByUserId(authUser.getId(), SMSCodeType.ACTIVATION);
+        if (!Objects.isNull(userSMS) && userSMS.getCode().equals(dto.code())) {
+            authUser.setStatus(Status.ACTIVE);
+            authUserRepository.save(authUser);
+            userSMS.setExpired(true);
+            userSMSService.update(userSMS);
+        }
+        throw new RuntimeException("Code is invalid");
+    }
 
-        return false;
+    public AuthUser findByEmail(String email) {
+        return authUserRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User with email '%s' not found".formatted(email)));
+    }
+
+    public boolean exist(String username) {
+        return authUserRepository.existsByUsername(username);
+    }
+
+    public void resendCode(String email, SMSCodeType smsCodeType) {
+        userSMSService.createSMSCode(findByEmail(email), smsCodeType);
     }
 }
