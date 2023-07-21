@@ -34,7 +34,7 @@
         <appender-ref ref="TelegramAppender"/>
     </root>
 
-    <logger name="uz.pdp.springboot" level="info" additivity="false">
+    <logger name="uz.anime" level="info" additivity="false">
         <appender-ref ref="RollingFile"/>
         <appender-ref ref="Console"/>
         <appender-ref ref="TelegramAppender"/>
