@@ -29,13 +29,13 @@
     <appender name="TelegramAppender" class="uz.anime.utils.telegram_appender.TelegramAppender"> </appender>
 
     <root level="info">
-        <appender-ref ref="RollingFile"/>
+<!--        <appender-ref ref="RollingFile"/>-->
         <appender-ref ref="Console"/>
         <appender-ref ref="TelegramAppender"/>
     </root>
 
-    <logger name="uz.pdp.springboot" level="info" additivity="false">
-        <appender-ref ref="RollingFile"/>
+    <logger name="uz.anime" level="info" additivity="false">
+<!--        <appender-ref ref="RollingFile"/>-->
         <appender-ref ref="Console"/>
         <appender-ref ref="TelegramAppender"/>
     </logger>

@@ -20,7 +20,7 @@ public class TelegramAppender extends AppenderBase<LoggingEvent> {
             @Override
             public FilterReply decide(LoggingEvent loggingEvent) {
                 return loggingEvent.getLevel()
-                        .isGreaterOrEqual(Level.INFO) ? FilterReply.ACCEPT : FilterReply.DENY;
+                        .isGreaterOrEqual(Level.WARN) ? FilterReply.ACCEPT : FilterReply.DENY;
 
             }
         });
@@ -28,7 +28,17 @@ public class TelegramAppender extends AppenderBase<LoggingEvent> {
 
     @Override
     protected void append(LoggingEvent loggingEvent) {
+        Level logLevel = loggingEvent.getLevel();
         String logMessage = loggingEvent.toString();
+//        if(logLevel.equals(Level.INFO)) {
+//            logMessage="ℹ"+logMessage;
+//        }
+        if(logLevel.equals(Level.WARN)) {
+            logMessage="⚠"+logMessage;
+        }
+        if(logLevel.equals(Level.ERROR)) {
+            logMessage="❌"+logMessage;
+        }
         SendMessage sendMessage = new SendMessage(chatID, logMessage);
         telegramBot.execute(sendMessage);
     }

@@ -1,5 +1,7 @@
 package uz.anime.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -31,14 +33,14 @@ import static uz.anime.utils.UrlUtils.BASE_AUTH_URL;
 @PreAuthorize("isAnonymous()")
 public class AuthController {
     private final AuthUserService authUserService;
-    private final SessionUser sessionUser;
-
+    private final ObjectMapper objectMapper;
     @Operation(summary = "For ANONYM users ,This API is used for user registration", responses = {
             @ApiResponse(responseCode = "200", description = "User registered", content = @Content(schema = @Schema(implementation = ResponseDTO.class))),
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = ResponseDTO.class)))})
     @PostMapping("/user/register")
-    public ResponseEntity<ResponseDTO<AuthUser>> register(@Valid @RequestBody UserCreateDTO dto) {
+    public ResponseEntity<ResponseDTO<AuthUser>> register(@Valid @RequestBody UserCreateDTO dto) throws JsonProcessingException {
         AuthUser authUser = authUserService.create(dto);
+        log.warn("User registered : {}", objectMapper.writeValueAsString(authUser));
         return ResponseEntity.ok(new ResponseDTO<>(authUser, "Registered successfully"));
     }
 
