@@ -2,6 +2,7 @@ package uz.anime.config.openapi;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.ExternalDocumentation;
+import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
@@ -12,13 +13,13 @@ import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.lang.NonNull;
-import io.swagger.v3.oas.models.OpenAPI;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
 
-import static uz.anime.utils.UrlUtils.*;
+import static uz.anime.utils.UrlUtils.BASE_AUTH_URL;
+import static uz.anime.utils.UrlUtils.BASE_URL;
 
 @Configuration
 public class SwaggerConfig {

@@ -13,15 +13,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
-import uz.anime.config.security.SessionUser;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import uz.anime.domains.AuthUser;
 import uz.anime.dtos.ResponseDTO;
 import uz.anime.dtos.authuser.*;
-import uz.anime.dtos.authuser.UserCreateDTO;
 import uz.anime.enums.SMSCodeType;
 import uz.anime.services.AuthUserService;
-
 
 import static uz.anime.utils.UrlUtils.BASE_AUTH_URL;
 
