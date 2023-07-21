@@ -34,6 +34,7 @@ import static uz.anime.utils.UrlUtils.BASE_AUTH_URL;
 public class AuthController {
     private final AuthUserService authUserService;
     private final ObjectMapper objectMapper;
+
     @Operation(summary = "For ANONYM users ,This API is used for user registration", responses = {
             @ApiResponse(responseCode = "200", description = "User registered", content = @Content(schema = @Schema(implementation = ResponseDTO.class))),
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = ResponseDTO.class)))})
@@ -70,6 +71,7 @@ public class AuthController {
     @PostMapping("/user/activate")
     public ResponseEntity<ResponseDTO<Void>> activate(@Valid @RequestBody UserActivationDTO dto) {
         authUserService.activate(dto);
+        log.warn("User with username: {} activated", dto.username());
         return ResponseEntity.ok(new ResponseDTO<>(null, "User activated successfully"));
     }
 
@@ -77,8 +79,8 @@ public class AuthController {
             @ApiResponse(responseCode = "200", description = "User activated", content = @Content(schema = @Schema(implementation = ResponseDTO.class))),
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = ResponseDTO.class)))})
     @PostMapping("/code/resend")
-    public ResponseEntity<ResponseDTO<Void>> resendCode(@NonNull String email) {
-        authUserService.resendCode(email, SMSCodeType.ACTIVATION);
+    public ResponseEntity<ResponseDTO<Void>> resendCode(@NonNull String username) {
+        authUserService.resendCode(username, SMSCodeType.ACTIVATION);
         return ResponseEntity.ok(new ResponseDTO<>(null, "Sms code sent successfully"));
     }
 

@@ -73,13 +73,14 @@ public class AuthUserService {
     }
 
     public void activate(UserActivationDTO dto) {
-        AuthUser authUser = findByEmail(dto.email());
+        AuthUser authUser = findByUsername(dto.username());
         UserSMS userSMS = userSMSService.findByUserId(authUser.getId(), SMSCodeType.ACTIVATION);
         if (!Objects.isNull(userSMS) && userSMS.getCode().equals(dto.code())) {
             authUser.setStatus(Status.ACTIVE);
             authUserRepository.save(authUser);
             userSMS.setExpired(true);
             userSMSService.update(userSMS);
+            return;
         }
         throw new RuntimeException("Code is invalid");
     }
@@ -93,7 +94,7 @@ public class AuthUserService {
         return authUserRepository.existsByUsername(username);
     }
 
-    public void resendCode(String email, SMSCodeType smsCodeType) {
-        userSMSService.createSMSCode(findByEmail(email), smsCodeType);
+    public void resendCode(String username, SMSCodeType smsCodeType) {
+        userSMSService.createSMSCode(findByUsername(username), smsCodeType);
     }
 }
