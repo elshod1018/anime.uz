@@ -46,7 +46,7 @@ public class AuthController {
             @ApiResponse(responseCode = "200", description = "Access token generated", content = @Content(schema = @Schema(implementation = ResponseDTO.class))),
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = ResponseDTO.class)))})
     @GetMapping("/token/access")
-    public ResponseEntity<ResponseDTO<TokenResponse>> generateToken(@Valid @RequestBody TokenRequest tokenRequest) {
+    public ResponseEntity<ResponseDTO<TokenResponse>> generateToken(TokenRequest tokenRequest) {
         TokenResponse tokenResponse = authUserService.generateToken(tokenRequest);
         tokenResponse.setRole(authUserService.findByUsername(tokenRequest.username()).getRole());
         return ResponseEntity.ok(new ResponseDTO<>(tokenResponse));
@@ -56,7 +56,7 @@ public class AuthController {
             @ApiResponse(responseCode = "200", description = "Access token generated", content = @Content(schema = @Schema(implementation = ResponseDTO.class))),
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = ResponseDTO.class)))})
     @GetMapping("/token/refresh")
-    public ResponseEntity<ResponseDTO<TokenResponse>> refreshToken(@Valid @RequestBody RefreshTokenRequest refreshTokenRequest) {
+    public ResponseEntity<ResponseDTO<TokenResponse>> refreshToken(RefreshTokenRequest refreshTokenRequest) {
         TokenResponse tokenResponse = authUserService.refreshAccessToken(refreshTokenRequest);
         return ResponseEntity.ok(new ResponseDTO<>(tokenResponse));
     }
@@ -66,10 +66,10 @@ public class AuthController {
             @ApiResponse(responseCode = "200", description = "User activated", content = @Content(schema = @Schema(implementation = ResponseDTO.class))),
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = ResponseDTO.class)))})
     @PostMapping("/user/activate")
-    public ResponseEntity<ResponseDTO<Void>> activate(@Valid @RequestBody UserActivationDTO dto) {
+    public ResponseEntity<ResponseDTO<Boolean>> activate(@Valid @RequestBody UserActivationDTO dto) {
         authUserService.activate(dto);
-        log.warn("User with username: {} activated", dto.username());
-        return ResponseEntity.ok(new ResponseDTO<>(null, "User activated successfully"));
+        log.warn("User with username '{}' activated", dto.username());
+        return ResponseEntity.ok(new ResponseDTO<>(true, "User activated successfully"));
     }
 
     @Operation(summary = "For ANONYM users ,This API is used for user activating users through the activation code that was sent via Email that is user entered", responses = {
@@ -80,24 +80,5 @@ public class AuthController {
         authUserService.resendCode(username, SMSCodeType.ACTIVATION);
         return ResponseEntity.ok(new ResponseDTO<>(null, "Sms code sent successfully"));
     }
-
-//    @Operation(summary = "For ANONYM users ,This API is used for get sms code for reset password", responses = {
-//            @ApiResponse(responseCode = "200", description = "Sms sent", content = @Content(schema = @Schema(implementation = ResponseDTO.class))),
-//            @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = ResponseDTO.class)))})
-//    @PostMapping("/forget/password/{phoneNumber:.*}")
-//    public ResponseEntity<ResponseDTO<Void>> resetPasswordRequest(@PathVariable String phoneNumber) {
-//        log.info("Reset password request for phone number : {}", phoneNumber);
-//        authUserService.resendCode(phoneNumber, SMSCodeType.FORGET_PASSWORD);
-//        return ResponseEntity.ok(new ResponseDTO<>(null, "Sms code sent successfully"));
-//    }
-
-//    @Operation(summary = "For ANONYM users ,This API is used for reset password", responses = {
-//            @ApiResponse(responseCode = "200", description = "Password reset", content = @Content(schema = @Schema(implementation = ResponseDTO.class))),
-//            @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = ResponseDTO.class)))})
-//    @PostMapping("/reset/password")
-//    public ResponseEntity<ResponseDTO<Void>> resetPassword(@RequestBody UserResetPasswordDTO dto) {
-//        authUserService.resetPassword(dto);
-//        return ResponseEntity.ok(new ResponseDTO<>(null, "Password reset successfully"));
-//    }
 }
 

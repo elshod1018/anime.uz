@@ -7,7 +7,7 @@ import uz.anime.domains.AuthUser;
 import java.util.Optional;
 
 public interface AuthUserRepository extends JpaRepository<AuthUser, Integer> {
-    @Query("select (count(a) > 0) from AuthUser a where a.username = ?1 and a.deleted = false and a.status = uz.anime.enums.Status.ACTIVE")
+    @Query("select (count(a.id) > 0) from AuthUser a where a.username = ?1 and a.deleted = false ")
     boolean existsByUsername(String username);
 
     @Query("select a from AuthUser a where a.email = ?1")

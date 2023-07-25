@@ -5,11 +5,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.scheduling.annotation.EnableAsync;
 import uz.anime.config.security.SessionUser;
 
 import java.util.Optional;
 import java.util.Random;
-
+@EnableAsync
 @EnableJpaAuditing
 @SpringBootApplication
 public class AnimeApplication {
