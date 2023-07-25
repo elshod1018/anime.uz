@@ -46,7 +46,6 @@ public class Anime extends Auditable implements Serializable {
     private Integer rating;
 
     @Builder(builderMethodName = "childBuilder")
-
     public Anime(Integer createdBy, Integer updateBy, LocalDateTime createdAt, LocalDateTime updatedAt, boolean deleted,
                  Integer id, String name, String description, String manager, String author, String studio, String license, String photoGeneratedName, String contentGeneratedName, List<Integer> categories, Integer viewCount, LocalDate publishedDate, Integer rating) {
         super(createdBy, updateBy, createdAt, updatedAt, deleted);

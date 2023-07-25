@@ -13,10 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import uz.anime.domains.AuthUser;
 import uz.anime.dtos.ResponseDTO;
 import uz.anime.dtos.authuser.*;
@@ -48,7 +45,7 @@ public class AuthController {
     @Operation(summary = "For ANONYM users ,This API is used for generate access token", responses = {
             @ApiResponse(responseCode = "200", description = "Access token generated", content = @Content(schema = @Schema(implementation = ResponseDTO.class))),
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = ResponseDTO.class)))})
-    @PostMapping("/token/access")
+    @GetMapping("/token/access")
     public ResponseEntity<ResponseDTO<TokenResponse>> generateToken(@Valid @RequestBody TokenRequest tokenRequest) {
         TokenResponse tokenResponse = authUserService.generateToken(tokenRequest);
         tokenResponse.setRole(authUserService.findByUsername(tokenRequest.username()).getRole());
@@ -58,7 +55,7 @@ public class AuthController {
     @Operation(summary = "For ANONYM users ,This API is used for generating a new access token using the refresh token", responses = {
             @ApiResponse(responseCode = "200", description = "Access token generated", content = @Content(schema = @Schema(implementation = ResponseDTO.class))),
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = ResponseDTO.class)))})
-    @PostMapping("/token/refresh")
+    @GetMapping("/token/refresh")
     public ResponseEntity<ResponseDTO<TokenResponse>> refreshToken(@Valid @RequestBody RefreshTokenRequest refreshTokenRequest) {
         TokenResponse tokenResponse = authUserService.refreshAccessToken(refreshTokenRequest);
         return ResponseEntity.ok(new ResponseDTO<>(tokenResponse));
