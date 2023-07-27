@@ -27,7 +27,6 @@ import static uz.anime.utils.UrlUtils.BASE_AUTH_URL;
 @RequiredArgsConstructor
 @RequestMapping(BASE_AUTH_URL)
 @Tag(name = "Authentication", description = "Authentication API")
-@PreAuthorize("isAnonymous()")
 public class AuthController {
     private final AuthUserService authUserService;
     private final ObjectMapper objectMapper;
@@ -36,6 +35,7 @@ public class AuthController {
             @ApiResponse(responseCode = "200", description = "User registered", content = @Content(schema = @Schema(implementation = ResponseDTO.class))),
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = ResponseDTO.class)))})
     @PostMapping("/user/register")
+    @PreAuthorize("isAnonymous()")
     public ResponseEntity<ResponseDTO<AuthUser>> register(@Valid @RequestBody UserCreateDTO dto) throws JsonProcessingException {
         AuthUser authUser = authUserService.create(dto);
         log.warn("User registered : {}", objectMapper.writeValueAsString(authUser));
@@ -46,6 +46,7 @@ public class AuthController {
             @ApiResponse(responseCode = "200", description = "Access token generated", content = @Content(schema = @Schema(implementation = ResponseDTO.class))),
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = ResponseDTO.class)))})
     @GetMapping("/token/access")
+    @PreAuthorize("isAnonymous()")
     public ResponseEntity<ResponseDTO<TokenResponse>> generateToken(TokenRequest tokenRequest) {
         TokenResponse tokenResponse = authUserService.generateToken(tokenRequest);
         tokenResponse.setRole(authUserService.findByUsername(tokenRequest.username()).getRole());
@@ -66,10 +67,11 @@ public class AuthController {
             @ApiResponse(responseCode = "200", description = "User activated", content = @Content(schema = @Schema(implementation = ResponseDTO.class))),
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = ResponseDTO.class)))})
     @PostMapping("/user/activate")
+    @PreAuthorize("isAnonymous()")
     public ResponseEntity<ResponseDTO<Boolean>> activate(@Valid @RequestBody UserActivationDTO dto) {
         authUserService.activate(dto);
         log.warn("User with username '{}' activated", dto.username());
-        return ResponseEntity.ok(new ResponseDTO<>(true, "User activated successfully"));
+        return ResponseEntity.ok(new ResponseDTO<>(null, "User activated successfully"));
     }
 
     @Operation(summary = "For ANONYM users ,This API is used for user activating users through the activation code that was sent via Email that is user entered", responses = {
@@ -78,7 +80,7 @@ public class AuthController {
     @PostMapping("/code/resend")
     public ResponseEntity<ResponseDTO<Void>> resendCode(@NonNull String username) {
         authUserService.resendCode(username, SMSCodeType.ACTIVATION);
-        return ResponseEntity.ok(new ResponseDTO<>(null, "Sms code sent successfully"));
+        return ResponseEntity.ok(new ResponseDTO<>(null, "Sms code resent successfully"));
     }
 }
 

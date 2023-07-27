@@ -2,7 +2,6 @@ package uz.anime.domains;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
 import lombok.AllArgsConstructor;
@@ -27,14 +26,12 @@ import java.time.LocalDateTime;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Auditable implements Serializable {
     @CreatedBy
-    @Column(updatable = false)
     private Integer createdBy;
 
     @LastModifiedBy
     private Integer updateBy;
 
     @CreatedDate
-    @Column(updatable = false)
     private LocalDateTime createdAt;
 
     @LastModifiedDate

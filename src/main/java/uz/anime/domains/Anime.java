@@ -36,7 +36,7 @@ public class Anime extends Auditable implements Serializable {
 
     private String contentGeneratedName;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private List<Integer> categories;
 
     private Integer viewCount;

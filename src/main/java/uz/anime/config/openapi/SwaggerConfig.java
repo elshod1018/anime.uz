@@ -18,8 +18,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
 
-import static uz.anime.utils.UrlUtils.BASE_AUTH_URL;
-import static uz.anime.utils.UrlUtils.BASE_URL;
+import static uz.anime.utils.UrlUtils.*;
 
 @Configuration
 public class SwaggerConfig {
@@ -54,7 +53,7 @@ public class SwaggerConfig {
                         .description("Spring Wikipedia Documentation")
                         .url("https://springshop.wiki.github.org/docs"))
                 .servers(List.of(
-                                new Server().url("https://anime-uz.onrender.com").description("Production Server"),
+//                                new Server().url("https://anime-uz.onrender.com").description("Production Server"),
                                 new Server().url("http://localhost:8080").description("Development Server")
                         )
                 )
@@ -81,6 +80,14 @@ public class SwaggerConfig {
         return GroupedOpenApi.builder()
                 .group("auth")
                 .pathsToMatch(BASE_AUTH_URL + "/**")
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi categoryOpenApi() {
+        return GroupedOpenApi.builder()
+                .group("category")
+                .pathsToMatch(BASE_CATEGORY_URL + "/**")
                 .build();
     }
 }

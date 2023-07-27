@@ -1,6 +1,5 @@
 package uz.anime.dtos.category;
 
-import jakarta.persistence.Entity;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,6 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CategoryCreateDTO {
+
     private Integer parentId;
 
     @NotBlank(message = "Name can not be blank")

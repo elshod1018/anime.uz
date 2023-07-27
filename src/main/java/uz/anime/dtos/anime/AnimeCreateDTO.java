@@ -31,10 +31,6 @@ public class AnimeCreateDTO {
     @NotBlank(message = "License can not be blank")
     private String license;
 
-//    private String photoGeneratedName;
-
-//    private String contentGeneratedName;
-
     private List<Integer> categories;
 
     @Past(message = "Published date must be past")

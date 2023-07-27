@@ -29,18 +29,21 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({RuntimeException.class, CredentialsExpiredException.class})
     public ResponseEntity<ResponseDTO<Void>> handleRuntimeExceptions(RuntimeException e, HttpServletRequest request) {
+        e.printStackTrace();
         AppErrorDTO error = new AppErrorDTO(request.getRequestURI(), e.getMessage(), 400);
         return ResponseEntity.badRequest().body(new ResponseDTO<>(error));
     }
 
     @ExceptionHandler({InsufficientAuthenticationException.class, ExpiredJwtException.class, DisabledException.class})
     public ResponseEntity<ResponseDTO<Void>> handleInsufficientAuthenticationException(RuntimeException e, HttpServletRequest request) {
+        e.printStackTrace();
         AppErrorDTO error = new AppErrorDTO(request.getRequestURI(), e.getMessage(), 403);
         return ResponseEntity.status(403).body(new ResponseDTO<>(error));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ResponseDTO<Void>> handleMethodArgumentNotValidException(MethodArgumentNotValidException e, HttpServletRequest request) {
+        e.printStackTrace();
         String errorMessage = "Input is not valid";
         Map<String, List<String>> errorBody = new HashMap<>();
         for (FieldError fieldError : e.getFieldErrors()) {

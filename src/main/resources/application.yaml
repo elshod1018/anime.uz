@@ -1,12 +1,12 @@
 SPRING_PROFILES_ACTIVE: dev
 spring:
   jpa:
-    show-sql: true
+    show-sql: false
     properties:
       hibernate:
         format_sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
   profiles:
     active: ${SPRING_PROFILES_ACTIVE}
   cache:
@@ -30,6 +30,7 @@ jwt:
         key: 7134743777217A25432A462D4A614E645267556B58703272357538782F413F44
 logging:
   level:
+    ch.qos.logback: ERROR
     org.springframework: INFO
 ---
 spring:
@@ -74,14 +75,15 @@ spring:
           starttls:
             enable: true
 
-#firebase:
-#  type: service_account
-#  project_id: abitur-test-uz
-#  private_key_id: b612cf0645367e4dba0591976b31f523d8201daa
-#  private_key: -----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDqUsK6+9aWdx+7\nqBcv9WZSW+fAbzUn2wwLWrI1KrbT0m13tBC/6dvijuMLGtNUSXgwLgynxy41038e\nFmNX+3tkx4wTlI+gcazGMw7lafWju29/4sp54IyjB7jyyAR25gtL7TDbtsALQjzw\nR+vB77AFKgoYU8RzJSP12OdES03hCU87p1NhUjSDxdUDaA7zOkESAC9MhvLp0Rlr\nx9MYKGkl0OJ2X7k323/Ui36HpXG6n4DuCc7PhDgmvoFhs10JU94+/Gzlu0/VL5pU\nU9qiO7F04p9Xj5BkRVlQ+h67J+1FIEP/t1YyWyNtciZ2Q5LMHnJvl1V7rL6f8Qxg\njFTq8KfRAgMBAAECggEACC7N8VLuWFiOXYKmFaUJltZyCkav6eWEvwhCqSfl1NGY\nREn/3D3V0Yx5GggMqXi7113iUAEdCGDrg2DXhQjpkxhDWGMznVAe7xh1HJaVzwsS\nfposRTON4bsZLrREsKTBr/v3XPLds77zSxZN4brFsDZ6vgT92yIIxpL1p41EKde0\n5ttRdLAzTvgre9Ukv/cZRSbdmfXCQgWSRwsx88o7/kuTx4BOfbn7qSSsvMaPEgD8\nl3QQmPoTwJxmNdg5KnJUAwCJBO5GDrgn/pNac5gY/Sov36ie3jiznZ3Vyt5gtIvV\n3Bxh+95QbQoKruXioWlN3U9SdPZgG1/NGXxHkBwagQKBgQD3ahpDUSpQNSFtm7U3\nHYVksBZDrhyS3BerriT1kZYOgU9UsOfBfWqbxkeBIyPpQlLYNGka+gJBu9LuF+RP\nMrr2S3vgbS5YwDgKnp7BTfJsKpI+/s5waC1iQF/zBQClM+5VX/cxn1uG8I2V+5ei\naO1XAntlOacWyfs4Pt6k0Ap2QQKBgQDydFzxadWJfOI9Cet2NoIX2UO6R/qwZFI4\neD7hDQSAQFuR35PnrEs8RO0o5ZIJCwzY/5O/z+UuuxrpPNAS1sBzzlw04+awskG9\nr261pF7n40mXN1LYKXGt2LFkMNeWticFxUP/k8Ma+SRpAA3aZvltWV+VHjuB3DTk\nKj/EuiptkQKBgQDazG0/XPcDiYjvasT+YdAGtCZsYfyI77TLMa0jskU2vKpQZkX9\n+hCeg+HWVSI79VhYNTlCDxiR0y19O4m/dEic6TI6zbMv74Vf9tjEcE9T0u4UYbhk\n9ew0uGNiAemJL3y06bIsoxYJJpC/s4hsq0hBK0O+yBZ489SD8C1rKUQnQQKBgQCb\n8f5qBMGlSh8WVZAOm+a3QjaO1YdH927vBWCkTkQr3blILT8rzyUhIdBM8sQobuQX\nmuPEhwqJMS2RAV1wEJL+qaejGUcjNbSVNgaGbK/ihM2rppjxkk6dG/iVUdkJBiY5\nTvV6qObgLYmew7slVABwtgCFoEl0MFgQvaAAgCGUEQKBgDopFlF1ZsmKkZ2dIkL0\n+U03J5uxGaMCLgyq8LQABSF6GT89H98bvDHRF4jEDqIC8D5sQp4Psa2sVDPwmQjX\nYrw91zqaoyfXE5vr6egZd3DmpEGe41KNEuK3/4OiFtL3FKnRhugdphDSC8/ECINB\nR/fxUj4ImIuXBI9nc3sSGfJH\n-----END PRIVATE KEY-----\n
-#  client_email: firebase-adminsdk-knvz4@abitur-test-uz.iam.gserviceaccount.com
-#  client_id: 107163715169237572917
-#  auth_uri: https://accounts.google.com/o/oauth2/auth
-#  token_uri: https://oauth2.googleapis.com/token
-#  auth_provider_x509_cert_url: https://www.googleapis.com/oauth2/v1/certs
-#  client_x509_cert_url: https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-knvz4%40abitur-test-uz.iam.gserviceaccount.com
+
+firebase:
+  type: service_account
+  project_id: anime-uz
+  private_key_id: 862e1a25061ec9313f6d1b770f4ee1a257ce9977
+  private_key: -----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCmLdqJufVv8eQ9\ndFB47MS9jsdsksixHtnD4l7cr8rYRlLl7voNL6Xzczs6ImhoT+5tiBznF7z5qS+p\nzEZ55PPKYHQKClXwfN3akNi5NvsziLYZZK0919vdDisxe7LskRt8hgC7ULzAB5f9\nG2FcANKbytoRDdyTfgIsi/HwlinBmaXcROQhboHLtGNNCrLDP/xaZx2X1PfaLWvE\nTp/U9wycm4Y/sru5bM4wnbdPA1hi4+4k8hIsj08JaDsfJb01elvJzoE6QptTLSfh\nwUnyxixiDHDd1Q2eFA7XQaj+wHEyRI26IfR+VvG7CnBGxGkqUIm0NMpzLeY5c8cJ\nBNEZw2TBAgMBAAECggEABXWm8wSrI74DmMHGJYzo0036Lw7c/VW1Q5ZftbooTMX1\nsgRxjmaY+gg4g0rPWZL7szlIMs7wuFaWwGo7zAQpvsW/tjc79tJRYx2EY0RjSSCG\nFAw+1VPuzyLIqD/nQ1aqm6MW6dCHnPr64zfHsXM8+B2YX7xP+YAHsAE6hgQW89tr\n69F7vawxYyQvhPR2hr7Wq6IxglAfbgsfcd9C/hJeYe+hIlOZxw6K4rqPLApeQrLc\nVGhBAQnXnNU59SdqsNBOvWQJGvym7lhotF+OMqeQquILcuMznpV5U8u3q+l0ui/0\nKOqW7zouBkNFER7FZHX5So1XqjXBOyCwqNzbI8m6+QKBgQDkmp9bfN+pysRZJe/s\ncaVIbdJasaWIBjejyLljKhurmi3uD0KSihe3geADbNZs99mE7HGc+Vroz+nFAvnD\nRgM7RRTYvXwrFqfNinKemdawcgP4tYdyk3zKkZm3QQKKODDV2jywShdmFF+KR+v2\nA0379ttxzAbD2ZKIbk+roGnbqQKBgQC6GBav2Gt2/RRnLEOLL/Up5yhieRTopu+7\n0315Q+TSYtZVmOfgss8odISOBI/Gvs3UY6qSnznZwbl1i23/WPjDTzQm9hvNI8tk\nYk3X7HSQ2tRO97sQdnbCSSDhmbNsOnuXybEPBPzrHgUd63wM7tE9rKDK3LId8dmh\ndftALdIvWQKBgQCus4u9Ov0ioRbUmi10oJUTePoc3U4HWdkDjc4/flqPFdCr8XWK\nz4W4c8RiWba0p+TPtHJO6DEVYm7gZJnDJaoqjWyVBpnxw+qRJZDaq+5qAXgPhYrx\ngM0JcaPra/8o6jBH/fQLNVQUatVos/YbmALs34ZsvOMeoRNeuA6itoCvoQKBgQCv\neK9LuCH83L40WsSFpf7iOBkYYVuZ1G8RCGazxZUp3BCGPdvHQFOdreCfmSWJHbkv\nn5rjDkiaT9T0RTi/IcHPSAvBASdN04ahbSBBjbCMNgsjOuykpU9t+06J60gHsU2A\n3qmZo/ZoLLJeeAFMoJOkN/aV0mwRWE8BtCHpbktWYQKBgDi3A7AMVH96Mg9VupMH\nvo/iy2rq6Ey0sk17VOFZ5rVi3e5o44KnQP6L+FvPEj73QetU4H9Gpo8lpMS/v4ZR\n2kgQ0yq3ieCqJjZnJXYBMoPSBQNxXFkxsvQ2uFEqOFE4nXKeljVgfjmv0NVupJ1p\nHOYd/Monr7pnf5KtmUYoR0Xy\n-----END PRIVATE KEY-----\n
+  client_email: firebase-adminsdk-ntd7w@anime-uz.iam.gserviceaccount.com
+  client_id: 108083323564605992268
+  auth_uri: https://accounts.google.com/o/oauth2/auth
+  token_uri: https://oauth2.googleapis.com/token
+  auth_provider_x509_cert_url: https://www.googleapis.com/oauth2/v1/certs
+  client_x509_cert_url: https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-ntd7w%40anime-uz.iam.gserviceaccount.com
