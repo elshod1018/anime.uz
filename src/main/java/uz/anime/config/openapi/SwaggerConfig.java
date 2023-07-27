@@ -53,7 +53,7 @@ public class SwaggerConfig {
                         .description("Spring Wikipedia Documentation")
                         .url("https://springshop.wiki.github.org/docs"))
                 .servers(List.of(
-                                new Server().url("https://anime-uz.onrender.com").description("Production Server"),
+//                                new Server().url("https://anime-uz.onrender.com").description("Production Server"),
                                 new Server().url("http://localhost:8080").description("Development Server")
                         )
                 )

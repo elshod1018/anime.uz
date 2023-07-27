@@ -1,14 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 <!--    <property name="LOGS" value="/home/elshod/apps/application_logs"/>-->
-
     <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
             <Pattern>
-                %green(%d{ISO8601}) %highlight(%-5level) [%blue(%t)] %yellow(%50.50C): %msg%n%throwable
+                %magenta(%d{ISO8601}) %highlight(%5level) [%5blue(%thread)] %cyan(%50.50C) : %msg%n%throwable
             </Pattern>
+<!--            <charset>utf-8</charset>-->
         </layout>
     </appender>
+
+    <conversionRule conversionWord="highlight" converterClass="org.springframework.boot.logging.logback.ColorConverter">
+        <converter>
+            <springProfile name="production">CONSOLE</springProfile>
+            <springProfile name="!production">CONSOLE</springProfile>
+            <springProfile name="production">WHITE</springProfile>
+            <springProfile name="!production">GREEN</springProfile>
+        </converter>
+    </conversionRule>
 
 <!--    <appender name="RollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
 <!--        <file>${LOGS}/spring-boot-logger.log</file>-->
