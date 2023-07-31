@@ -49,7 +49,7 @@ public class DocumentController {
                 .body(resource);
     }
 
-    @Operation(summary = "For USERS , This API is used for get documents", responses = {
+    @Operation(summary = "For AUTHENTICATED USERS , This API is used for get documents", responses = {
             @ApiResponse(responseCode = "200", description = "Document returned", content = @Content(schema = @Schema(implementation = ResponseDTO.class))),
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = ResponseDTO.class)))})
     @GetMapping("/getById/{id:.*}")
@@ -58,7 +58,7 @@ public class DocumentController {
         return ResponseEntity.ok(new ResponseDTO<>(document));
     }
 
-    @Operation(summary = "For USERS , This API is used for get documents by generated name", responses = {
+    @Operation(summary = "For AUTHENTICATED USERS , This API is used for get documents by generated name", responses = {
             @ApiResponse(responseCode = "200", description = "Document returned", content = @Content(schema = @Schema(implementation = ResponseDTO.class))),
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = ResponseDTO.class)))})
     @GetMapping("/getByName/{generatedName:.*}")

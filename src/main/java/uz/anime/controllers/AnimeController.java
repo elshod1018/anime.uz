@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import uz.anime.domains.Anime;
 import uz.anime.dtos.ResponseDTO;
 import uz.anime.dtos.anime.AnimeCreateDTO;
+import uz.anime.dtos.anime.AnimeUpdateDTO;
 import uz.anime.services.AnimeService;
 
 import static uz.anime.utils.UrlUtils.BASE_ANIME_URL;
@@ -34,7 +35,7 @@ public class AnimeController {
     private final ObjectMapper objectMapper;
     private final AnimeService animeService;
 
-    @Operation(summary = "For Authenticated users ,This API is used for create anime", responses = {
+    @Operation(summary = "For Authenticated ADMINS ,This API is used for create anime", responses = {
             @ApiResponse(responseCode = "200", description = "Anime Created", content = @Content(schema = @Schema(implementation = ResponseDTO.class))),
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = ResponseDTO.class)))})
     @PostMapping(value = "/create")
@@ -44,19 +45,19 @@ public class AnimeController {
         return ResponseEntity.ok(new ResponseDTO<>(anime, "Created successfully"));
     }
 
-    @Operation(summary = "For Authenticated users ,This API is used for set cover photo and content", responses = {
+    @Operation(summary = "For Authenticated ADMINS ,This API is used for set cover photo and content", responses = {
             @ApiResponse(responseCode = "200", description = "Image and content set", content = @Content(schema = @Schema(implementation = ResponseDTO.class))),
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = ResponseDTO.class)))})
     @PutMapping(value = "/{animeId:.*}/set-contents", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ResponseDTO<Void>> setAnimeContents(@PathVariable("animeId") Integer animeId,
-                                                               @RequestParam(name = "photo") MultipartFile photo,
-                                                               @RequestParam(name = "content") MultipartFile content) throws JsonProcessingException {
+                                                              @RequestParam(name = "photo") MultipartFile photo,
+                                                              @RequestParam(name = "content") MultipartFile content) throws JsonProcessingException {
         Anime anime = animeService.setContents(animeId, photo, content);
-        log.warn("files {} {}",  photo.getOriginalFilename(), content.getOriginalFilename());
+        log.warn("{} {} {}", photo.getOriginalFilename(), content.getOriginalFilename(), objectMapper.writeValueAsString(anime));
         return ResponseEntity.ok(new ResponseDTO<>(null, "Contents set successfully"));
     }
 
-    @Operation(summary = "For Authenticated users ,This API is used for get existing anime", responses = {
+    @Operation(summary = "For Authenticated USERS , ADMINS ,This API is used for get existing anime", responses = {
             @ApiResponse(responseCode = "200", description = "Anime returned", content = @Content(schema = @Schema(implementation = ResponseDTO.class))),
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = ResponseDTO.class)))})
     @GetMapping(value = "/get/{id:.*}")
@@ -65,7 +66,7 @@ public class AnimeController {
         return ResponseEntity.ok(new ResponseDTO<>(anime));
     }
 
-    @Operation(summary = "For Authenticated users ,This API is used for get existing anime list", responses = {
+    @Operation(summary = "For Authenticated USERS , ADMINS ,This API is used for get existing anime list", responses = {
             @ApiResponse(responseCode = "200", description = "Anime list returned", content = @Content(schema = @Schema(implementation = ResponseDTO.class))),
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = ResponseDTO.class)))})
     @GetMapping(value = "/get/all")
@@ -75,5 +76,23 @@ public class AnimeController {
         return ResponseEntity.ok(new ResponseDTO<>(animePage));
     }
 
+
+    @Operation(summary = "For Authenticated ADMIN ,This API is used for update existing anime", responses = {
+            @ApiResponse(responseCode = "200", description = "Anime updated", content = @Content(schema = @Schema(implementation = ResponseDTO.class))),
+            @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = ResponseDTO.class)))})
+    @GetMapping(value = "/update")
+    public ResponseEntity<ResponseDTO<Anime>> updateAnime(@RequestBody AnimeUpdateDTO dto) throws JsonProcessingException {
+        Anime anime = animeService.update(dto);
+        return ResponseEntity.ok(new ResponseDTO<>(anime, "Updated successfully"));
+    }
+
+    @Operation(summary = "For Authenticated ADMIN ,This API is used for delete existing anime", responses = {
+            @ApiResponse(responseCode = "200", description = "Anime updated", content = @Content(schema = @Schema(implementation = ResponseDTO.class))),
+            @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = ResponseDTO.class)))})
+    @GetMapping(value = "/delete/{id:.*}")
+    public ResponseEntity<ResponseDTO<Void>> deleteAnime(@PathVariable(name = "id") Integer animeId) throws JsonProcessingException {
+        animeService.delete(animeId);
+        return ResponseEntity.ok(new ResponseDTO<>(null, "Deleted successfully"));
+    }
 }
 

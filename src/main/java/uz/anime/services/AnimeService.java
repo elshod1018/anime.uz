@@ -8,11 +8,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import uz.anime.domains.Anime;
 import uz.anime.dtos.anime.AnimeCreateDTO;
+import uz.anime.dtos.anime.AnimeUpdateDTO;
 import uz.anime.enums.FileAim;
 import uz.anime.evenet_listeners.events.AnimeSetContentsEvent;
 import uz.anime.repositories.AnimeRepository;
 
 import java.util.List;
+import java.util.Objects;
 
 import static uz.anime.mapper.AnimeMapper.ANIME_MAPPER;
 
@@ -24,8 +26,7 @@ public class AnimeService {
     private final CategoryService categoryService;
 
     public Anime create(AnimeCreateDTO dto) {
-        List<Integer> categories = dto.getCategories();
-        categories.forEach(categoryService::findById);
+        checkForCategoriesExist(dto.getCategories());
         Anime anime = ANIME_MAPPER.toEntity(dto);
         return animeRepository.save(anime);
     }
@@ -48,4 +49,26 @@ public class AnimeService {
     public Anime update(Anime anime) {
         return animeRepository.save(anime);
     }
+
+    public Anime update(AnimeUpdateDTO dto) {
+        Anime anime = findById(dto.getId());
+        List<Integer> categories = dto.getCategories();
+        if (!Objects.isNull(categories) && !categories.isEmpty()) {
+            checkForCategoriesExist(categories);
+        }
+        ANIME_MAPPER.updateAnimeFromDTO(dto, anime);
+        return animeRepository.save(anime);
+    }
+
+    public void delete(Integer animeId) {
+        Anime anime = findById(animeId);
+        anime.setDeleted(true);
+        update(anime);
+    }
+
+    private void checkForCategoriesExist(List<Integer> categories) {
+        categories.forEach(categoryService::findById);
+    }
+
+
 }

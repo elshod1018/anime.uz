@@ -27,7 +27,7 @@ import static uz.anime.utils.UrlUtils.BASE_CATEGORY_URL;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(BASE_CATEGORY_URL)
-@PreAuthorize("isAnonymous()")
+@PreAuthorize("isAuthenticated()")
 @Tag(name = "Category", description = "Category CRUD API")
 public class CategoryController {
     private final ObjectMapper objectMapper;
@@ -44,7 +44,7 @@ public class CategoryController {
         return ResponseEntity.ok(new ResponseDTO<>(category, "Created successfully"));
     }
 
-    @Operation(summary = "For Authenticated users ,This API is used for get existing category", responses = {
+    @Operation(summary = "For Authenticated USERS and ADMIN ,This API is used for get existing category", responses = {
             @ApiResponse(responseCode = "200", description = "Category returned", content = @Content(schema = @Schema(implementation = ResponseDTO.class))),
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = ResponseDTO.class)))})
     @GetMapping(value = "/get/{id:.*}")
@@ -53,7 +53,7 @@ public class CategoryController {
         return ResponseEntity.ok(new ResponseDTO<>(categoryService.findById(id)));
     }
 
-    @Operation(summary = "For Authenticated users ,This API is used for get existing category list", responses = {
+    @Operation(summary = "For Authenticated USERS and ADMIN ,This API is used for get existing category list", responses = {
             @ApiResponse(responseCode = "200", description = "Category list returned", content = @Content(schema = @Schema(implementation = ResponseDTO.class))),
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = ResponseDTO.class)))})
     @GetMapping(value = "/get/all")
@@ -64,7 +64,7 @@ public class CategoryController {
         return ResponseEntity.ok(new ResponseDTO<>(categoryService.findAll(p)));
     }
 
-    @Operation(summary = "For Authenticated users ,This API is used for update existing category", responses = {
+    @Operation(summary = "For Authenticated ADMIN ,This API is used for update existing category", responses = {
             @ApiResponse(responseCode = "200", description = "Category updated successfully", content = @Content(schema = @Schema(implementation = ResponseDTO.class))),
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = ResponseDTO.class)))})
     @PutMapping(value = "/update")
@@ -75,7 +75,7 @@ public class CategoryController {
         return ResponseEntity.ok(new ResponseDTO<>(category, "Updated successfully"));
     }
 
-    @Operation(summary = "For Authenticated users ,This API is used for delete existing category", responses = {
+    @Operation(summary = "For Authenticated ADMIN ,This API is used for delete existing category", responses = {
             @ApiResponse(responseCode = "200", description = "Category deleted successfully", content = @Content(schema = @Schema(implementation = ResponseDTO.class))),
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = ResponseDTO.class)))})
     @DeleteMapping(value = "/delete/{id:.*}")
