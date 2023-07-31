@@ -61,7 +61,7 @@ public class AnimeController {
             @ApiResponse(responseCode = "200", description = "Anime returned", content = @Content(schema = @Schema(implementation = ResponseDTO.class))),
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = ResponseDTO.class)))})
     @GetMapping(value = "/get/{id:.*}")
-    public ResponseEntity<ResponseDTO<Anime>> getAnime(@PathVariable("id") Integer id) throws JsonProcessingException {
+    public ResponseEntity<ResponseDTO<Anime>> getAnime(@PathVariable("id") Integer id) {
         Anime anime = animeService.findById(id);
         return ResponseEntity.ok(new ResponseDTO<>(anime));
     }
@@ -71,7 +71,7 @@ public class AnimeController {
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = ResponseDTO.class)))})
     @GetMapping(value = "/get/all")
     public ResponseEntity<ResponseDTO<Page<Anime>>> getAllAnime(@RequestParam(name = "page", defaultValue = "1") Integer page,
-                                                                @RequestParam(name = "size", defaultValue = "10") Integer size) throws JsonProcessingException {
+                                                                @RequestParam(name = "size", defaultValue = "10") Integer size) {
         Page<Anime> animePage = animeService.findAll(PageRequest.of(page - 1, size));
         return ResponseEntity.ok(new ResponseDTO<>(animePage));
     }
@@ -81,7 +81,7 @@ public class AnimeController {
             @ApiResponse(responseCode = "200", description = "Anime updated", content = @Content(schema = @Schema(implementation = ResponseDTO.class))),
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = ResponseDTO.class)))})
     @GetMapping(value = "/update")
-    public ResponseEntity<ResponseDTO<Anime>> updateAnime(@RequestBody AnimeUpdateDTO dto) throws JsonProcessingException {
+    public ResponseEntity<ResponseDTO<Anime>> updateAnime(@RequestBody AnimeUpdateDTO dto){
         Anime anime = animeService.update(dto);
         return ResponseEntity.ok(new ResponseDTO<>(anime, "Updated successfully"));
     }
@@ -90,7 +90,7 @@ public class AnimeController {
             @ApiResponse(responseCode = "200", description = "Anime updated", content = @Content(schema = @Schema(implementation = ResponseDTO.class))),
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = ResponseDTO.class)))})
     @GetMapping(value = "/delete/{id:.*}")
-    public ResponseEntity<ResponseDTO<Void>> deleteAnime(@PathVariable(name = "id") Integer animeId) throws JsonProcessingException {
+    public ResponseEntity<ResponseDTO<Void>> deleteAnime(@PathVariable(name = "id") Integer animeId) {
         animeService.delete(animeId);
         return ResponseEntity.ok(new ResponseDTO<>(null, "Deleted successfully"));
     }
