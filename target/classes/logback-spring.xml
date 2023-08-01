@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+<!--    <property name="LOGS" value="/home/elshod/apps/application_logs"/>-->
+    <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>
+                %magenta(%d{ISO8601}) %highlight(%5level) [%5blue(%thread)] %cyan(%50.50C) : %msg%n%throwable
+            </Pattern>
+<!--            <charset>utf-8</charset>-->
+        </layout>
+    </appender>
+
+    <conversionRule conversionWord="highlight" converterClass="org.springframework.boot.logging.logback.ColorConverter">
+        <converter>
+            <springProfile name="production">CONSOLE</springProfile>
+            <springProfile name="!production">CONSOLE</springProfile>
+            <springProfile name="production">WHITE</springProfile>
+            <springProfile name="!production">GREEN</springProfile>
+        </converter>
+    </conversionRule>
+
+<!--    <appender name="RollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+<!--        <file>${LOGS}/spring-boot-logger.log</file>-->
+
+<!--        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">-->
+<!--            <Pattern>%d %p %50.50C [%t] %m%n</Pattern>-->
+<!--        </encoder>-->
+
+<!--        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">-->
+<!--            <fileNamePattern>-->
+<!--                ${LOGS}/archived/spring-boot-logger-%d{yyyy-MM-dd-HH-mm}.%i.log-->
+<!--            </fileNamePattern>-->
+<!--            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">-->
+<!--                <maxFileSize>10000KB</maxFileSize>-->
+<!--            </timeBasedFileNamingAndTriggeringPolicy>-->
+<!--        </rollingPolicy>-->
+<!--    </appender>-->
+    <appender name="TelegramAppender" class="uz.anime.utils.telegram_appender.TelegramAppender"> </appender>
+
+    <root level="info">
+<!--        <appender-ref ref="RollingFile"/>-->
+        <appender-ref ref="Console"/>
+        <appender-ref ref="TelegramAppender"/>
+    </root>
+
+    <logger name="uz.anime" level="info" additivity="false">
+<!--        <appender-ref ref="RollingFile"/>-->
+        <appender-ref ref="Console"/>
+        <appender-ref ref="TelegramAppender"/>
+    </logger>
+</configuration>

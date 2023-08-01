@@ -53,7 +53,7 @@ public class DocumentController {
             @ApiResponse(responseCode = "200", description = "Document returned", content = @Content(schema = @Schema(implementation = ResponseDTO.class))),
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = ResponseDTO.class)))})
     @GetMapping("/getById/{id:.*}")
-    public ResponseEntity<ResponseDTO<Document>> download(@PathVariable Integer id) throws IOException {
+    public ResponseEntity<ResponseDTO<Document>> getById(@PathVariable Integer id) throws IOException {
         Document document = documentService.getById(id);
         return ResponseEntity.ok(new ResponseDTO<>(document));
     }

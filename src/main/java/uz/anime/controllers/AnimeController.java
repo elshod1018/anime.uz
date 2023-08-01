@@ -74,13 +74,13 @@ public class AnimeController {
                                                                 @RequestParam(name = "size", defaultValue = "10") Integer size) {
         Page<Anime> animePage = animeService.findAll(PageRequest.of(page - 1, size));
         return ResponseEntity.ok(new ResponseDTO<>(animePage));
-    }
 
+    }
 
     @Operation(summary = "For Authenticated ADMIN ,This API is used for update existing anime", responses = {
             @ApiResponse(responseCode = "200", description = "Anime updated", content = @Content(schema = @Schema(implementation = ResponseDTO.class))),
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = ResponseDTO.class)))})
-    @GetMapping(value = "/update")
+    @PutMapping(value = "/update")
     public ResponseEntity<ResponseDTO<Anime>> updateAnime(@RequestBody AnimeUpdateDTO dto){
         Anime anime = animeService.update(dto);
         return ResponseEntity.ok(new ResponseDTO<>(anime, "Updated successfully"));
@@ -89,7 +89,7 @@ public class AnimeController {
     @Operation(summary = "For Authenticated ADMIN ,This API is used for delete existing anime", responses = {
             @ApiResponse(responseCode = "200", description = "Anime updated", content = @Content(schema = @Schema(implementation = ResponseDTO.class))),
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = ResponseDTO.class)))})
-    @GetMapping(value = "/delete/{id:.*}")
+    @DeleteMapping(value = "/delete/{id:.*}")
     public ResponseEntity<ResponseDTO<Void>> deleteAnime(@PathVariable(name = "id") Integer animeId) {
         animeService.delete(animeId);
         return ResponseEntity.ok(new ResponseDTO<>(null, "Deleted successfully"));
