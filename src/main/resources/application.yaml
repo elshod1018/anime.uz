@@ -6,7 +6,7 @@ spring:
       hibernate:
         format_sql: true
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
   profiles:
     active: ${SPRING_PROFILES_ACTIVE}
   cache:
@@ -64,7 +64,6 @@ firebase:
   auth_provider_x509_cert_url: ${FIREBASE_AUTH_PROVIDER_X509_CERT_URL}
   client_x509_cert_url: ${FIREBASE_CLIENT_X509_CERT_URL}
 ---
-#LOGS:  '/home/elshod/apps/application_logs'
 spring:
   config:
     activate:
@@ -85,8 +84,6 @@ spring:
           auth: true
           starttls:
             enable: true
-
-
 firebase:
   type: service_account
   project_id: anime-uz
