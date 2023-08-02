@@ -1,6 +1,6 @@
 package uz.anime.enums;
 
-public enum FileAim {
+public enum FileType {
     PHOTO,
-    CONTENT
+    VIDEO
 }

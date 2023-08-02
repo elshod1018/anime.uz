@@ -11,12 +11,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import uz.anime.domains.Document;
 import uz.anime.dtos.ResponseDTO;
+import uz.anime.enums.FileType;
 import uz.anime.services.DocumentService;
 
 import java.io.File;
@@ -33,6 +32,15 @@ import static uz.anime.utils.UrlUtils.BASE_DOCUMENTS_URL;
 @Tag(name = "Documents Controller", description = "Documents API")
 public class DocumentController {
     private final DocumentService documentService;
+
+    @Operation(summary = "For AUTHENTICATED USERS , This API is used for post file", responses = {
+            @ApiResponse(responseCode = "200", description = "File saved", content = @Content(schema = @Schema(implementation = ResponseDTO.class))),
+            @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = ResponseDTO.class)))})
+    @PostMapping(name = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<ResponseDTO<Document>> upload(@RequestParam(name = "fileType") FileType fileType, @RequestParam(name = "file") MultipartFile file) throws IOException {
+        Document document = documentService.createDocument(file, fileType);
+        return ResponseEntity.ok(new ResponseDTO<>(document, "File saved"));
+    }
 
     @Operation(summary = "For AUTHENTICATED users, This API is used for download documents", responses = {
             @ApiResponse(responseCode = "200", description = "Document returned", content = @Content(schema = @Schema(implementation = ResponseDTO.class))),

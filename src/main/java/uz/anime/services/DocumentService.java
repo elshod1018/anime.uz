@@ -7,15 +7,16 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MimeType;
 import org.springframework.web.multipart.MultipartFile;
-import uz.anime.domains.Anime;
 import uz.anime.domains.Document;
-import uz.anime.enums.FileAim;
+import uz.anime.enums.FileType;
 import uz.anime.evenet_listeners.events.DocumentCreatedEvent;
 import uz.anime.repositories.DocumentRepository;
 import uz.anime.services.firebase.FirebaseService;
+import uz.anime.utils.MediaUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 
 import static uz.anime.utils.BaseUtils.generateFileName;
@@ -32,13 +33,13 @@ public class DocumentService {
     private final ObjectMapper objectMapper;
 
 //    public Document saveMultipartDocuments(Integer animeId, MultipartFile photo, MultipartFile content) throws IOException {
-//        saveMultipartDocuments(animeId, photo, FileAim.PHOTO);
-//        saveMultipartDocuments(animeId, content, FileAim.CONTENT);
+//        saveMultipartDocuments(animeId, photo, FileType.PHOTO);
+//        saveMultipartDocuments(animeId, content, FileType.CONTENT);
 //
 //        return null;
 //    }
 
-//    public Document saveMultipartDocuments(Integer animeId, MultipartFile file, FileAim fileAim) throws IOException {
+    //    public Document saveMultipartDocuments(Integer animeId, MultipartFile file, FileType fileAim) throws IOException {
 //        long size = file.getSize();
 //        if (size > 5 * 1024 * 1024) {
 //            throw new IOException("File size must be less than 5MB");
@@ -55,7 +56,7 @@ public class DocumentService {
 //                .build();
 //        documentRepository.save(document);
 //        Anime anime = animeService.findById(animeId);
-//        if (FileAim.CONTENT.equals(fileAim)) {
+//        if (FileType.CONTENT.equals(fileAim)) {
 //            anime.setContentGeneratedName(generatedName);
 //        } else {
 //            anime.setPhotoGeneratedName(document.getGeneratedName());
@@ -63,15 +64,26 @@ public class DocumentService {
 //        log.warn("Anime is updating: {} , Document: '{}'", objectMapper.writeValueAsString(anime), objectMapper.writeValueAsString(document));
 //        return document;
 //    }
+    @SuppressWarnings("unchecked")
+    public Document createDocument(MultipartFile file, FileType fileType) throws IOException {
+        String fileTypeName = fileType.name();
+        String stringSize = FileType.VIDEO.name().equalsIgnoreCase(fileTypeName) ? "VIDEO_SIZE" : "PHOTO_SIZE";
+        int size = (int) MediaUtils.FILE_SETTINGS.get(stringSize);
+        String stringExtension = FileType.PHOTO.name().equalsIgnoreCase(fileTypeName) ? "PHOTO_EXTENSION" : "VIDEO_EXTENSION";
+        List<String> extensions = (List<String>) MediaUtils.FILE_SETTINGS.get(stringExtension);
+        return createDocument(file, size, extensions);
+    }
 
-    public Document createDocument(MultipartFile file, long size) throws IOException {
+    public Document createDocument(MultipartFile file, long size, List<String> extensions) throws IOException {
         long fileSize = file.getSize();
-        System.out.println("fileSize = " + fileSize);
         if (fileSize > size * 1024 * 1024) {
             throw new IOException("File size must be less than %s MB".formatted(size));
         }
         final String originalFilename = file.getOriginalFilename();
         final String extension = getExtension(Objects.requireNonNull(originalFilename));
+        if (!extensions.contains(extension)) {
+            throw new RuntimeException("File extension must be one of %s".formatted(extensions));
+        }
         final String generatedName = generateFileName() + extension;
         Document document = Document.childBuilder()
                 .originalName(originalFilename)

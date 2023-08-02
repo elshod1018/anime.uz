@@ -45,17 +45,17 @@ public class AnimeController {
         return ResponseEntity.ok(new ResponseDTO<>(anime, "Created successfully"));
     }
 
-    @Operation(summary = "For Authenticated ADMINS ,This API is used for set cover photo and content", responses = {
-            @ApiResponse(responseCode = "200", description = "Image and content set", content = @Content(schema = @Schema(implementation = ResponseDTO.class))),
-            @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = ResponseDTO.class)))})
-    @PutMapping(value = "/{animeId:.*}/set-contents", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<ResponseDTO<Void>> setAnimeContents(@PathVariable("animeId") Integer animeId,
-                                                              @RequestParam(name = "photo") MultipartFile photo,
-                                                              @RequestParam(name = "content") MultipartFile content) throws JsonProcessingException {
-        Anime anime = animeService.setContents(animeId, photo, content);
-        log.warn("{} {} {}", photo.getOriginalFilename(), content.getOriginalFilename(), objectMapper.writeValueAsString(anime));
-        return ResponseEntity.ok(new ResponseDTO<>(null, "Contents set successfully"));
-    }
+//    @Operation(summary = "For Authenticated ADMINS ,This API is used for set cover photo and content", responses = {
+//            @ApiResponse(responseCode = "200", description = "Image and content set", content = @Content(schema = @Schema(implementation = ResponseDTO.class))),
+//            @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = ResponseDTO.class)))})
+//    @PutMapping(value = "/{animeId:.*}/set-contents", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+//    public ResponseEntity<ResponseDTO<Void>> setAnimeContents(@PathVariable("animeId") Integer animeId,
+//                                                              @RequestParam(name = "photo") MultipartFile photo,
+//                                                              @RequestParam(name = "content") MultipartFile content) throws JsonProcessingException {
+//        Anime anime = animeService.setContents(animeId, photo, content);
+//        log.warn("{} {} {}", photo.getOriginalFilename(), content.getOriginalFilename(), objectMapper.writeValueAsString(anime));
+//        return ResponseEntity.ok(new ResponseDTO<>(null, "Contents set successfully"));
+//    }
 
     @Operation(summary = "For Authenticated USERS , ADMINS ,This API is used for get existing anime", responses = {
             @ApiResponse(responseCode = "200", description = "Anime returned", content = @Content(schema = @Schema(implementation = ResponseDTO.class))),

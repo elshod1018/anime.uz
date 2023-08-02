@@ -5,12 +5,9 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 import uz.anime.domains.Anime;
 import uz.anime.dtos.anime.AnimeCreateDTO;
 import uz.anime.dtos.anime.AnimeUpdateDTO;
-import uz.anime.enums.FileAim;
-import uz.anime.evenet_listeners.events.AnimeSetContentsEvent;
 import uz.anime.repositories.AnimeRepository;
 
 import java.util.List;
@@ -40,11 +37,11 @@ public class AnimeService {
         return animeRepository.findAll(pageRequest);
     }
 
-    public Anime setContents(Integer animeId, MultipartFile photo, MultipartFile content) {
-        Anime anime = findById(animeId);
-        applicationEventPublisher.publishEvent(new AnimeSetContentsEvent(anime.getId(), photo, content));
-        return anime;
-    }
+//    public Anime setContents(Integer animeId, MultipartFile photo, MultipartFile content) {
+//        Anime anime = findById(animeId);
+//        applicationEventPublisher.publishEvent(new AnimeSetContentsEvent(anime.getId(), photo, content));
+//        return anime;
+//    }
 
     public Anime update(Anime anime) {
         return animeRepository.save(anime);

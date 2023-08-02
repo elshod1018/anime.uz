@@ -27,6 +27,10 @@ public class AnimeUpdateDTO {
 
     private String license;
 
+    private String photoGeneratedName;
+
+    private String contentGeneratedName;
+
     private List<Integer> categories;
 
     private LocalDate publishedDate;
