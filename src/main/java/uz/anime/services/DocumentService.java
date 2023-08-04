@@ -1,6 +1,5 @@
 package uz.anime.services;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
@@ -8,6 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.MimeType;
 import org.springframework.web.multipart.MultipartFile;
 import uz.anime.domains.Document;
+import uz.anime.dtos.document.DocumentExtensionsUpdateDTO;
+import uz.anime.dtos.document.DocumentSizeUpdateDTO;
 import uz.anime.enums.FileType;
 import uz.anime.evenet_listeners.events.DocumentCreatedEvent;
 import uz.anime.repositories.DocumentRepository;
@@ -17,6 +18,7 @@ import uz.anime.utils.MediaUtils;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import static uz.anime.utils.BaseUtils.generateFileName;
@@ -29,8 +31,6 @@ public class DocumentService {
     private final FirebaseService firebaseService;
     private final DocumentRepository documentRepository;
     private final ApplicationEventPublisher applicationEventPublisher;
-    private final AnimeService animeService;
-    private final ObjectMapper objectMapper;
 
 //    public Document saveMultipartDocuments(Integer animeId, MultipartFile photo, MultipartFile content) throws IOException {
 //        saveMultipartDocuments(animeId, photo, FileType.PHOTO);
@@ -84,7 +84,7 @@ public class DocumentService {
         if (!extensions.contains(extension)) {
             throw new RuntimeException("File extension must be one of %s".formatted(extensions));
         }
-        final String generatedName = generateFileName() + extension;
+        final String generatedName = generateFileName() + "." + extension;
         Document document = Document.childBuilder()
                 .originalName(originalFilename)
                 .generatedName(generatedName)
@@ -137,5 +137,49 @@ public class DocumentService {
     public Document findById(Integer documentId) {
         return documentRepository.findById(documentId)
                 .orElseThrow(() -> new RuntimeException("Document Not found by id: '%s'".formatted(documentId)));
+    }
+
+    public Map<String, Integer> getDocumentSize() {
+        return Map.of("photoSize", (Integer) MediaUtils.FILE_SETTINGS.get("PHOTO_SIZE"),
+                "videoSize", (Integer) MediaUtils.FILE_SETTINGS.get("VIDEO_SIZE"));
+    }
+
+    public void updateDocumentExtensions(DocumentExtensionsUpdateDTO dto) {
+
+    }
+
+    public void updateDocumentSize(DocumentSizeUpdateDTO dto) {
+        Integer photoSize = dto.getPhotoSize();
+        Integer videoSize = dto.getVideoSize();
+        if (!Objects.isNull(photoSize) && photoSize > 1 && photoSize < 50) {
+            MediaUtils.FILE_SETTINGS.put("PHOTO_SIZE", photoSize);
+        } else {
+            throw new RuntimeException("Photo size must be between 1 and 50");
+        }
+        if (!Objects.isNull(videoSize) && videoSize > 1 && videoSize < 1000) {
+            MediaUtils.FILE_SETTINGS.put("VIDEO_SIZE", videoSize);
+        } else {
+            throw new RuntimeException("Video size must be between 1 and 1000");
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public void addToDocumentExtensions(FileType fileType, List<String> extensions) {
+        if (!Objects.isNull(extensions) && !extensions.isEmpty()) {
+            if (FileType.PHOTO.equals(fileType)) {
+                List<String> photoExtensions = (List<String>) MediaUtils.FILE_SETTINGS.get("PHOTO_EXTENSION");
+                photoExtensions.addAll(extensions);
+            } else if (FileType.VIDEO.equals(fileType)) {
+                System.out.printf("extensions: %s%n", extensions);
+//                List<String> videoExtensions = (List<String>) MediaUtils.FILE_SETTINGS.get("VIDEO_EXTENSION");
+//                videoExtensions.addAll(extensions);
+            }
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public Map<String, List<String>> getDocumentExtensions() {
+        return Map.of("photoExtensions", (List<String>) MediaUtils.FILE_SETTINGS.get("PHOTO_EXTENSION"),
+                "videoExtensions", (List<String>) MediaUtils.FILE_SETTINGS.get("VIDEO_EXTENSION"));
     }
 }

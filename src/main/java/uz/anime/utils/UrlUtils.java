@@ -18,5 +18,7 @@ public interface UrlUtils {
 
     /* Documents */
     String BASE_DOCUMENTS_URL = BASE_URL + "/documents";
+    /* Utils */
+    String BASE_LISTS_URL = BASE_URL + "/lists";
 
 }
