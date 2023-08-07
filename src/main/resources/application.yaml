@@ -6,7 +6,7 @@ spring:
       hibernate:
         format_sql: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
   profiles:
     active: ${SPRING_PROFILES_ACTIVE}
   cache:
